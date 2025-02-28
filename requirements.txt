@@ -1,0 +1,5 @@
+robotframework~=6.1.1
+robotframework-requests~=0.9.7
+PyYAML~=6.0.1
+robotframework-faker~=5.0.0
+robotframework-pabot~=2.18.0
