@@ -16,7 +16,7 @@ on:
       test_tag:
         description: 'Tag dos cenários de teste a serem executados'
         required: true
-        default: 'login'
+        default: 'cadastro'
 
 jobs:
     test:
@@ -42,8 +42,8 @@ jobs:
         - name: Notify Slack - Start
           run: |
             curl -X POST -H 'Content-Type: application/json' \
-            -d "{\"text\": \"@all 🤖 Pipeline de back end web iniciado! 🚀\n🔹 Iniciado por: **${{ github.actor }}**\"}" \
-            "${{ secrets.GCHAT_WEBHOOK }}"    
+            -d "{\"text\": \"@all 🤖 Pipeline de back end api testes! 🚀\n🔹 Iniciado por: **${{ github.actor }}**\n🔹 Branch: **${{ github.ref_name }}**\n🔹 Ambiente: **${{ github.event.inputs.EXECUTION_ENVIRONMENT }}**\n🔹 Cenarios: **${{ github.event.inputs.test_tag }}**\"}" \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"    
 
         - name: Run tests
           # env:
@@ -78,7 +78,7 @@ jobs:
           run: |
             REPORT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             curl -X POST -H 'Content-Type: application/json' \
-            -d "{\"text\": \"@all ✅ Pipeline de front end web testes: \n🔹 Iniciado por: **${{ github.actor }}** finalizado com sucesso! \n🔹 <${REPORT_URL}|Veja o relatório!>\"}" \
+            -d "{\"text\": \"@all ✅ Pipeline de back end api testes: \n🔹 Iniciado por: **${{ github.actor }}**\n🔹 Branch: **${{ github.ref_name }}**\n🔹 Ambiente: **${{ github.event.inputs.EXECUTION_ENVIRONMENT }}**\n🔹 Cenarios: **${{ github.event.inputs.test_tag }}** finalizado com sucesso! \n🔹 <${REPORT_URL}|Veja o relatório!>\"}" \
             "${{ secrets.SLACK_WEBHOOK_URL }}"
       
         - name: Notify Slack - Failure
@@ -86,5 +86,5 @@ jobs:
           run: |
             REPORT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             curl -X POST -H 'Content-Type: application/json' \
-            -d "{\"text\": \"@all ❌ Pipeline de front end web testes: \n🔹 Iniciado por: **${{ github.actor }}** falhou! \n🔹 <${REPORT_URL}|Veja o relatório!>\"}" \
+            -d "{\"text\": \"@all ❌ Pipeline de back end api testes: \n🔹 Iniciado por: **${{ github.actor }}**\n🔹 Branch: **${{ github.ref_name }}**\n🔹 Ambiente: **${{ github.event.inputs.EXECUTION_ENVIRONMENT }}**\n🔹 Cenarios: **${{ github.event.inputs.test_tag }}** falhou! \n🔹 <${REPORT_URL}|Veja o relatório!>\"}" \
             "${{ secrets.SLACK_WEBHOOK_URL }}"
