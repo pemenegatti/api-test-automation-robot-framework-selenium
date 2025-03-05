@@ -46,8 +46,8 @@ jobs:
             "${{ secrets.SLACK_WEBHOOK_URL }}"    
 
         - name: Run tests
-          # env:
-          #   EXECUTION_ENVIRONMENT: ${{ github.event.inputs.EXECUTION_ENVIRONMENT || secrets.ENV_HML }}
+          env:
+            EXECUTION_ENVIRONMENT: ${{ github.event.inputs.EXECUTION_ENVIRONMENT }}
           #   BASE_URL: ${{ github.event.inputs.BASE_URL || secrets.BASE_URL }}
           #   HEADLESS: 'True'
           run: |
