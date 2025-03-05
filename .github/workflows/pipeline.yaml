@@ -51,7 +51,7 @@ jobs:
             BASE_URL: ${{ github.event.inputs.BASE_URL }}
           #   HEADLESS: 'True'
           run: |
-            robot -d tests/results
+            robot -d tests/results tests
             # if [ -z "${{ github.event.inputs.test_tag }}" ]; then
             #   echo "Running all tests"
             #   robot -d tests/results tests
