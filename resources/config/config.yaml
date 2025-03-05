@@ -1,0 +1,7 @@
+CONFIG:
+  DEFAULT:
+    EXECUTION_ENVIRONMENT: HML
+  PROD:
+    BASE_URL: https://serverest.dev
+  HML:
+    BASE_URL: https://serverest.dev

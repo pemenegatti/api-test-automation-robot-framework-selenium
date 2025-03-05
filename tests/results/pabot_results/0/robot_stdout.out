@@ -1,0 +1,18 @@
+==============================================================================
+Tests                                                                         
+==============================================================================
+Tests.Api Testing Usuarios                                                    
+==============================================================================
+Cenário 01: Cadastrar um novo usuário com sucesso na ServeRest :: ... | PASS |
+------------------------------------------------------------------------------
+Cenário 02: Cadastrar um usuário já existente :: Esse teste realiz... | PASS |
+------------------------------------------------------------------------------
+Cenário 03: Consultar os dados de um novo usuário :: Esse teste re... | PASS |
+------------------------------------------------------------------------------
+Tests.Api Testing Usuarios                                            | PASS |
+3 tests, 3 passed, 0 failed
+==============================================================================
+Tests                                                                 | PASS |
+3 tests, 3 passed, 0 failed
+==============================================================================
+Output:  /Users/pemenegatti/Downloads/api-test-automation-robot-framework-selenium/tests/results/pabot_results/0/output.xml
