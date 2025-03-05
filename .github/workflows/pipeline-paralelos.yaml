@@ -1,4 +1,4 @@
-name: Robot Framework
+name: Rodar Cenários Paralelos
 
 on:
   push:
@@ -53,10 +53,10 @@ jobs:
           run: |
             if [ -z "${{ github.event.inputs.test_tag }}" ]; then
               echo "Running all tests"
-              robot -d tests/results tests
+              pabot -d tests/results tests
             else
               echo "Running tests with tag: ${{ github.event.inputs.test_tag }}"
-              robot -d tests/results --include ${{ github.event.inputs.test_tag }} tests
+              pabot -d tests/results --include ${{ github.event.inputs.test_tag }} tests
             fi
         
         - name: Robot Reporter
