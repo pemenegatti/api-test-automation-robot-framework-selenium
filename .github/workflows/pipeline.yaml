@@ -5,10 +5,10 @@ on:
     branches: [ master ]
   workflow_dispatch:
     inputs:
-      # BASE_URL:
-      #   description: 'Base URL to run the tests against'
-      #   required: true
-      #   default: 'https://homolog.sistema.clinicorp.com/'
+      BASE_URL:
+        description: 'Base URL to run the tests against'
+        required: true
+        default: 'https://serverest.dev'
       EXECUTION_ENVIRONMENT:
         description: 'Ambiente de Execução HML ou PROD'
         required: true
@@ -48,7 +48,7 @@ jobs:
         - name: Run tests
           env:
             EXECUTION_ENVIRONMENT: ${{ github.event.inputs.EXECUTION_ENVIRONMENT }}
-          #   BASE_URL: ${{ github.event.inputs.BASE_URL || secrets.BASE_URL }}
+            BASE_URL: ${{ github.event.inputs.BASE_URL }}
           #   HEADLESS: 'True'
           run: |
             if [ -z "${{ github.event.inputs.test_tag }}" ]; then
