@@ -29,12 +29,12 @@ Antes de começar, certifique-se de ter os seguintes requisitos atendidos:
 ### 🚀 Como executar
 ### 1 Clone este repositório.
 ```bash
-git clone git@github.com:clinicorp/qa-backend-api-test-automation.git
+git clone git@github.com:pemenegatti/api-test-automation-robot-framework-selenium.git
 ```
 
 ### 2 Acesse a pasta do projeto.
 ```bash
-cd qa-backend-api-test-automation
+cd api-test-automation-robot-framework-selenium
 ```
 
 ### 3 Instale os requisitos do projeto.
@@ -63,7 +63,3 @@ As seguintes branchs são utilizadas neste projeto:
 As seguintes tags podem ser usadas para executar cenários específicos:
 - regressivo: Executa todos os cenários automatizados.
 - smoke: Executa os principais cenários automatizados.
-- login: Executa apenas os cenários de login.
-- agendamento: Executa apenas os cenários de agendamento.
-- status: Executa apenas os cenários de alteração de status.
-- desmarcar: Executa apenas os cenários de desmarcar agendamento.

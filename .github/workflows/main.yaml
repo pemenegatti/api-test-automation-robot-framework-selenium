@@ -1,0 +1,90 @@
+name: Robot Framework
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      # BASE_URL:
+      #   description: 'Base URL to run the tests against'
+      #   required: true
+      #   default: 'https://homolog.sistema.clinicorp.com/'
+      EXECUTION_ENVIRONMENT:
+        description: 'Ambiente de Execução HML ou PROD'
+        required: true
+        default: 'HML'
+      test_tag:
+        description: 'Tag dos cenários de teste a serem executados'
+        required: true
+        default: 'login'
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        continue-on-error: true
+
+        steps:
+        - name: Get Code
+          uses: actions/checkout@v4
+
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.11'
+
+        - name: Install dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y xvfb
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+        
+        - name: Notify Slack - Start
+          run: |
+            curl -X POST -H 'Content-Type: application/json' \
+            -d "{\"text\": \"@all 🤖 Pipeline de back end web iniciado! 🚀\n🔹 Iniciado por: **${{ github.actor }}**\"}" \
+            "${{ secrets.GCHAT_WEBHOOK }}"    
+
+        - name: Run tests
+          # env:
+          #   EXECUTION_ENVIRONMENT: ${{ github.event.inputs.EXECUTION_ENVIRONMENT || secrets.ENV_HML }}
+          #   BASE_URL: ${{ github.event.inputs.BASE_URL || secrets.BASE_URL }}
+          #   HEADLESS: 'True'
+          run: |
+            if [ -z "${{ github.event.inputs.test_tag }}" ]; then
+              echo "Running all tests"
+              pabot -d tests/results tests
+            else
+              echo "Running tests with tag: ${{ github.event.inputs.test_tag }}"
+              pabot -d tests/results --include ${{ github.event.inputs.test_tag }} tests
+            fi
+        
+        - name: Robot Reporter
+          uses: joonvena/robotframework-reporter-action@v2.4
+          if: always()
+          with:
+            gh_access_token: ${{secrets.GITHUB_TOKEN}}
+            report_path: tests/results
+        
+        - name: Upload Report
+          uses: actions/upload-artifact@v4.3.3
+          if: always()
+          with:
+            name: Test Report
+            path: tests/results
+
+        - name: Notify Slack - Success
+          if: success()
+          run: |
+            REPORT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            curl -X POST -H 'Content-Type: application/json' \
+            -d "{\"text\": \"@all ✅ Pipeline de front end web testes: \n🔹 Iniciado por: **${{ github.actor }}** finalizado com sucesso! \n🔹 <${REPORT_URL}|Veja o relatório!>\"}" \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"
+      
+        - name: Notify Slack - Failure
+          if: failure()
+          run: |
+            REPORT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            curl -X POST -H 'Content-Type: application/json' \
+            -d "{\"text\": \"@all ❌ Pipeline de front end web testes: \n🔹 Iniciado por: **${{ github.actor }}** falhou! \n🔹 <${REPORT_URL}|Veja o relatório!>\"}" \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"
