@@ -1,4 +1,4 @@
-name: Rodar Cenários Sequenciais
+name: Rodar Cenários Sequenciais API
 
 on:
   push:

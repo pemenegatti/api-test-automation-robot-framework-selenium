@@ -1,4 +1,4 @@
-name: Rodar Cenários Paralelos
+name: Rodar Cenários Paralelos API
 
 on:
   push:
