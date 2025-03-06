@@ -45,6 +45,12 @@ jobs:
         
         - name: Notify Slack - Start
           run: |
+            # Definir o modo de execução
+            if [[ "${{ github.event.inputs.parallel_execution }}" == "true" ]]; then
+                echo "EXECUTION_MODE=Paralelo" >> $GITHUB_ENV
+            else
+                echo "EXECUTION_MODE=Sequencial" >> $GITHUB_ENV
+            fi
             curl -X POST -H 'Content-Type: application/json' \
             -d "{\"text\": \"@all 🤖 Pipeline de back end api testes! 🚀\n🔹 Iniciado por: **${{ github.actor }}**\n🔹 Branch: **${{ github.ref_name }}**\n🔹 Ambiente: **${{ github.event.inputs.EXECUTION_ENVIRONMENT }}**\n🔹 Cenarios: **${{ github.event.inputs.test_tag }}**\n🔹 Modo de Execução: **${{ env.EXECUTION_MODE }}**\"}" \
             "${{ secrets.SLACK_WEBHOOK_URL }}"
@@ -57,10 +63,8 @@ jobs:
             # Definir executor baseado na opção de execução paralela
             if [[ "${{ github.event.inputs.parallel_execution }}" == "true" ]]; then
                 EXECUTOR="pabot"
-                echo "EXECUTION_MODE=Paralelo" >> $GITHUB_ENV
             else
                 EXECUTOR="robot"
-                echo "EXECUTION_MODE=Sequencial" >> $GITHUB_ENV
             fi
 
             # Executar os testes
