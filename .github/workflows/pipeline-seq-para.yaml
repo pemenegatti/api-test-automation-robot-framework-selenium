@@ -54,18 +54,21 @@ jobs:
             EXECUTION_ENVIRONMENT: ${{ github.event.inputs.EXECUTION_ENVIRONMENT }}
             BASE_URL: ${{ github.event.inputs.BASE_URL }}
           run: |
-            if [ "${{ github.event.inputs.parallel_execution }}" == "true" ]; then
-              EXECUTOR="pabot"
+            # Definir executor baseado na opção de execução paralela
+            if [[ "${{ github.event.inputs.parallel_execution }}" == "true" ]]; then
+            EXECUTOR="pabot"
             else
-              EXECUTOR="robot"
+            EXECUTOR="robot"
             fi
-            
-            if [ -z "${{ github.event.inputs.test_tag }}" ]; then
-              echo "Running all tests"
-              $EXECUTOR -d tests/results tests
+
+            # Executar os testes
+            if [[ -z "${{ github.event.inputs.test_tag }}" ]]; then
+            echo "Running all tests"
+            "$EXECUTOR" -d tests/results tests
             else
-              echo "Running tests with tag: ${{ github.event.inputs.test_tag }}"
-              $EXECUTOR -d tests/results --include ${{ github.event.inputs.test_tag }} tests
+            echo "Running tests with tag: ${{ github.event.inputs.test_tag }}"
+            "$EXECUTOR" -d tests/results --include "${{ github.event.inputs.test_tag }}" tests
+            fi
         
         - name: Robot Reporter
           uses: joonvena/robotframework-reporter-action@v2.4
