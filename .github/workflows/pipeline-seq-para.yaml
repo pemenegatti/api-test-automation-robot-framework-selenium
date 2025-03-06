@@ -43,14 +43,15 @@ jobs:
             python -m pip install --upgrade pip
             pip install -r requirements.txt
         
-        - name: Notify Slack - Start
-          run: |
-            # Definir o modo de execução
+        - run: |
             if [[ "${{ github.event.inputs.parallel_execution }}" == "true" ]]; then
                 echo "EXECUTION_MODE=Paralelo" >> $GITHUB_ENV
             else
                 echo "EXECUTION_MODE=Sequencial" >> $GITHUB_ENV
             fi
+        
+        - name: Notify Slack - Start
+          run: |
             curl -X POST -H 'Content-Type: application/json' \
             -d "{\"text\": \"@all 🤖 Pipeline de back end api testes! 🚀\n🔹 Iniciado por: **${{ github.actor }}**\n🔹 Branch: **${{ github.ref_name }}**\n🔹 Ambiente: **${{ github.event.inputs.EXECUTION_ENVIRONMENT }}**\n🔹 Cenarios: **${{ github.event.inputs.test_tag }}**\n🔹 Modo de Execução: **${{ env.EXECUTION_MODE }}**\"}" \
             "${{ secrets.SLACK_WEBHOOK_URL }}"
