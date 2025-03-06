@@ -1,4 +1,4 @@
-name: Rodar Cenários API
+name: Rodar Cenários de Teste API
 
 on:
   push:
