@@ -175,6 +175,11 @@ log.html
 output.xml
 report.html
 selenium-screenshot-*.png
+tests/results/output.xml
+tests/results/log.html
+tests/results/report.html
+tests/results/pabot_results/
+.pabotsuitenames
 
 ### General ###
 .vscode/launch.json

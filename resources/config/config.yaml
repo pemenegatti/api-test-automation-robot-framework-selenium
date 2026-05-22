@@ -1,7 +1,15 @@
 CONFIG:
   DEFAULT:
     EXECUTION_ENVIRONMENT: HML
+
   PROD:
     BASE_URL: https://serverest.dev
+
   HML:
     BASE_URL: https://serverest.dev
+
+USUARIOS:
+  NOME_PADRAO:     Fulano da Silva
+  PASSWORD_PADRAO: "1234"
+  ADMINISTRADOR:   "true"
+  DOMINIO_EMAIL:   emailteste.com
